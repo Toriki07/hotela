@@ -31,7 +31,7 @@ class App extends Component {
         <Link to="/categories">categories</Link><br/>
         <Link to="/details">details</Link><br/>
         <Link to="/gallery">gallery</Link><br/>
-        <Link to="/room">room</Link><br/>
+        <Link to="/rooms">room</Link><br/>
         <Link to="/shoppingcart">shoppingcart</Link><br/>
       </div>
     );

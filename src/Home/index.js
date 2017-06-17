@@ -6,10 +6,94 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import request from 'request';
 import './styles.css';
 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      form: {},
+      bookRoom: null,
+    };
+
+    this.onBookNow = this.onBookNow.bind(this);
+    this.onNameChange = this.onNameChange.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onPhoneChange = this.onPhoneChange.bind(this);
+    this.onArrivalDateChange = this.onArrivalDateChange.bind(this);
+    this.onDepartureDateChange = this.onDepartureDateChange.bind(this);
+  }
+
+  onBookNow(e){
+    e.preventDefault();
+    alert('Booked Droom Sucsetion' + JSON.stringify(this.state.form));
+    const form = this.state.form;
+
+    request ({
+      method: 'post',
+      headers: {
+        'content-type': 'application/json'
+      },
+      url:'http://35.162.241.129:3000/api/v1/booking',
+      body: JSON.stringify(form),
+
+    }, function (error, response, body){
+      console.log('error', error);
+      console.log('response', response);
+      console.log('body', body);
+    }.bind(this));
+  }
+  onNameChange(e){
+    console.log('onNameChange', e.target.vaule);
+    this.setState({
+      form: {
+        ...this.state.form,
+        name: e.target.value
+      }
+    });
+  }
+  onEmailChange(e){
+    console.log('onEmailChange', e.target.value);
+    this.setState({
+      form:{
+        ...this.state.form,
+        email: e.target.value
+      }
+    });
+  }
+
+  onPhoneChange(e) {
+   console.log('onPhoneChange', e.target.value);
+   this.setState({
+     form: {
+       ...this.state.form,
+       phone: e.target.value
+     }
+   });
+ }
+   onArrivalDateChange(e) {
+    console.log('onArrivalDateChange', e.target.value);
+    this.setState({
+      form: {
+        ...this.state.form,
+        arrivaldate: e.target.value
+      }
+    });
+  }
+  onDepartureDateChange(e) {
+   console.log('onDepartureDateChange', e.target.value);
+   this.setState({
+     form: {
+       ...this.state.form,
+       departure: e.target.value
+     }
+   });
+ }
+
   render() {
     return (
       <div>
@@ -185,9 +269,15 @@ class App extends Component {
         <div className="form-book">
           <div className="container">
             <div className="form-book-entry">
-              <input type="text" placeholder="Name" />
-              <input type="email" placeholder="Email" />
-              <input type="tel" placeholder="Phone" />
+              <input type="text" placeholder="Name"
+              value={this.state.form.name}
+              onChange={this.onNameChange}/>
+              <input type="email" placeholder="Email"
+              value={this.state.form.email}
+              onChange={this.onEmailChange}/>
+              <input type="tel" placeholder="Phone"
+              value={this.state.form.phone}
+              onChange={this.onPhoneChange}/>
               <select>
                 <option value="" disabled selected="">Room Types</option>
                 <option value="1">Standard Room</option>
@@ -197,10 +287,14 @@ class App extends Component {
               </select>
               <div className="row">
                 <div className="col s6">
-                  <input type="text" placeholder="Arrival Date" className="datepicker" />
+                  <input type="text" placeholder="Arrival Date" className="datepicker"
+                  value={this.state.form.arrivaldate}
+                  onChange={this.onArrivalDateChange} />
                 </div>
                 <div className="col s6">
-                  <input type="text" placeholder="Departure Date" className="datepicker" />
+                  <input type="text" placeholder="Departure Date" className="datepicker"
+                  value={this.state.form.departure}
+                  onChange={this.onDepartureDateChange} />
                 </div>
               </div>
               <div className="row">
@@ -223,7 +317,7 @@ class App extends Component {
                   </select>
                 </div>
               </div>
-              <button className="button">Book Now</button>
+              <button className="button" onClick={this.onBookNow}>Book Now</button>
             </div>
           </div>
         </div>

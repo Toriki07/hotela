@@ -33,9 +33,9 @@ const AppRouter = () => {
         <Route path="/testimonial" component={testimonial} />
         <Route path="/blogsingle" component={blogsingle} />
         <Route path="/categories" component={categories} />
-        <Route path="/details" component={details} />
+        <Route path="/room/:id" component={details} />
         <Route path="/gallery" component={gallery} />
-        <Route path="/room" component={room} />
+        <Route path="/rooms" component={room} />
         <Route path="/shoppingcart" component={shoppingcart} />
       </div>
     </HashRouter>

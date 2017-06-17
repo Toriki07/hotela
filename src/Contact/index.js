@@ -6,10 +6,81 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
+import request from 'request';
 import './styles.css';
 
 
 class App extends Component {
+
+  constructor(props){
+    super(props);
+
+    this.state = {
+      form:{},
+    };
+
+    this.onSendContact = this.onSendContact.bind(this);
+    this.onNameChange = this.onNameChange.bind(this);
+    this.onEmailChange = this.onEmailChange.bind(this);
+    this.onTeleChange = this.onTeleChange.bind(this);
+    this.onMessageChange = this.onMessageChange.bind(this);
+
+  }
+  onSendContact(e){
+    e.preventDefault();
+    alert('Thank for your message' + JSON.stringify(this.state.form));
+    const form = this.state.form;
+
+    request({
+      method: 'post',
+      headers:{
+        'content-type': 'application/json'
+      },
+      url: 'http://35.162.241.129:3000/api/v1/enquiry',
+      body: JSON.stringify(form),
+    }, function (error, response, body){
+      console.log('error', error);
+      console.log('response', response);
+      console.log('body', body);
+    }.bind(this));
+  }
+  onNameChange(e){
+    console.log('onNameChange', e.target.vaule);
+    this.setState({
+      form: {
+        ...this.state.form,
+        name: e.target.value
+      }
+    });
+  }
+  onEmailChange(e){
+    console.log('onEmailChange', e.target.value);
+    this.setState({
+      form:{
+        ...this.state.form,
+        email: e.target.value
+      }
+    });
+  }
+
+  onTeleChange(e) {
+   console.log('onTeleChange', e.target.value);
+   this.setState({
+     form: {
+       ...this.state.form,
+       tele: e.target.value
+     }
+   });
+ }
+   onMessageChange(e) {
+    console.log('onArrivalDateChange', e.target.value);
+    this.setState({
+      form: {
+        ...this.state.form,
+        message: e.target.value
+      }
+    });
+  }
   render() {
     return (
       <div className="home">
@@ -151,12 +222,20 @@ class App extends Component {
             <h3>Contact Us</h3>
           </div>
           <form action="#">
-            <input type="text" placeholder="Name"/>
-            <input type="email" placeholder="Email"/>
-            <input type="number" placeholder="Telepon"/>
+            <input type="text" placeholder="Name"
+            value = {this.state.form.name}
+            onChange={this.onNameChange}/>
+            <input type="email" placeholder="Email"
+            value = {this.state.form.email}
+            onChange = {this.onEmailChange}/>
+            <input type="number" placeholder="Telepon"
+            value = {this.state.form.tele}
+            onChange = {this.onTeleChange}/>
             <input type="text" placeholder="Website"/>
-            <textarea cols="20" rows="10" placeholder="Your Message"></textarea>
-            <button className="button">Submit</button>
+            <textarea cols="20" rows="10" placeholder="Your Message"
+            value = {this.state.form.message}
+            onChange = {this.onMessageChange}></textarea>
+            <button className="button" onClick={this.onSendContact}>Submit</button>
           </form>
         </div>
       </div>
