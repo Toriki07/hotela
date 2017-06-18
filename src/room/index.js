@@ -5,6 +5,7 @@ import Navbar from '../Components/Navbar';
 import Footer from '../Components/Footer';
 import './styles.css';
 
+const Loader = require('halogen/ClipLoader');
 
 class App extends Component {
 
@@ -176,7 +177,7 @@ class App extends Component {
         <div className="container">
 
         {(this.state.data.length === 0) ? (
-             <span>watting for me hahaha !!!</span>
+             <span><Loader color="#26A65B" size="100px" margin="100px"/></span>
            ) : (
              <div className="row">
                {this.state.data.map(function(item, index) {

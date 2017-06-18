@@ -6,7 +6,7 @@ import request from 'request';
 
 import './styles.css';
 
-
+const Loader = require('halogen/ClipLoader');
 class App extends Component {
 
   constructor(props) {
@@ -117,7 +117,7 @@ class App extends Component {
       <Navbar title="Room Detail"/>
 
       {!room && (
-        <span> Loading... </span>
+         <Loader color="#26A65B" size="16px" margin="4px"/>
       )}
       {room && (
         <div className="details app-pages app-section">
@@ -139,10 +139,12 @@ class App extends Component {
                <li><button className="button">Add to Card</button></li>
              </ul>
              <div className="comment">
-               <h6>2 Comment</h6>
+               <h6>{this.state.data.length} Comment</h6>
 
                {(this.state.data.length === 0) ? (
-                    <span>watting for me hahaha !!!</span>
+                 <div className="Loader">
+                   <Loader color="#707784" size="100px" margin="20%" />
+                 </div>
                   ) : (
                     <div className="content">
                     {this.state.data.map(function(item, index){
